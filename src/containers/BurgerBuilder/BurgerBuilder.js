@@ -21,6 +21,7 @@ class BurgerBuilder extends Component {
             meat: 0
         },
         purchasable: false,
+        orderSummaryShow: false,
         totalPrice: 4
     }
 
@@ -56,18 +57,35 @@ class BurgerBuilder extends Component {
 
     updatePurchaseState = (ingredients) => {
         const sum = Object.keys(ingredients)
-        .map(key =>{
-            return ingredients[key];
-        })
-        .reduce((sum, el) =>{
-            return sum + el;
-        }, 0);
-        return {purchasable: sum > 0};
+            .map(key => {
+                return ingredients[key];
+            })
+            .reduce((sum, el) => {
+                return sum + el;
+            }, 0);
+        return { purchasable: sum > 0 };
     }
+
+    orderSummaryShowHandler = () => {
+        this.setState((prevState) => {
+            return { orderSummaryShow: true };
+        });
+    }
+
+    purchaseCancelHandler = () => {
+        this.setState((prevState) => {
+            return { orderSummaryShow: false };
+        });
+    }
+
+    purchaseContinueHandler = () => {
+        alert('Continue');
+    }
+
 
     render() {
         console.log(this.state);
-        const disabledInfo = {...this.state.ingredients};
+        const disabledInfo = { ...this.state.ingredients };
         for (let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0;
         }
@@ -75,13 +93,20 @@ class BurgerBuilder extends Component {
 
         return (
             <React.Fragment>
-                <Modal><OrderSummary ingredients={this.state.ingredients}/></Modal>
+                <Modal show={this.state.orderSummaryShow} modalClosed={this.purchaseCancelHandler}>
+                    <OrderSummary 
+                    continueClicked={this.purchaseContinueHandler} 
+                    cancelClicked={this.purchaseCancelHandler} 
+                    ingredients={this.state.ingredients} 
+                    totalPrice={this.state.totalPrice}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
-                <BuildControls moreClicked={this.addIngredientHandler} 
-                               lessClicked={this.removeIngredientHandler} 
-                               disabled={disabledInfo}
-                               price={this.state.totalPrice}
-                               purchasable={this.state.purchasable}/>
+                <BuildControls moreClicked={this.addIngredientHandler}
+                    lessClicked={this.removeIngredientHandler}
+                    disabled={disabledInfo}
+                    price={this.state.totalPrice}
+                    purchasable={this.state.purchasable}
+                    orderClicked={this.orderSummaryShowHandler} />
             </React.Fragment>
         );
     }
