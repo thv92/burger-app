@@ -14,6 +14,7 @@
 
 .Logo {
     height: 11%;
+    margin-bottom: 32px;
 }
 
 /*Shouldn't have sidedrawer on bigger devices with width > 500px*/
