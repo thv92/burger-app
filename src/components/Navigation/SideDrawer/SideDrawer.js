@@ -8,7 +8,7 @@ const sideDrawer = (props) => {
     //Need to do {} function because need conditional renders
     return (
         <div className={styles.SideDrawer}>
-            <Logo />
+            <Logo height="11%"/>
             <nav><NavigationItems /></nav>
         </div>
     );
