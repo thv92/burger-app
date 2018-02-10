@@ -12,6 +12,10 @@
     transition: transform 0.3s ease-out;
 }
 
+.Logo {
+    height: 11%;
+}
+
 /*Shouldn't have sidedrawer on bigger devices with width > 500px*/
 @media (min-width: 500px) {
     .SideDrawer {
